@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+const data = {
+  categories: { group: 'Category', root_id: 1, list: [{ id: 3, name: 'test', children: [{ id: 4, name: 'test1', children: [] }] }, { id: 5, name: 'parallel', children: [{ id: 7, name: 'test2', children: [{ id: 10, name: 'aaaa', children: [{ id: 10, name: 'bbb', children: [], }], },], },], }, { id: 6, name: 'test1', children: [] }] }
+};
+
+export default function App() {
+
+
+  return Object.entries(data.categories.list).map(item => (
+    <div key={item[0]}>
+      {item[1].name}
+
+      <Menu item={item[1].children}/>
     </div>
-  );
+  ));
 }
 
-export default App;
+const Menu = ({item}) => {
+  return (
+    <ul>
+      {item.map(m => {
+        return (<li key={m.id}>
+          {m.name}
+          {m.children && <Menu item={m.children} />}
+        </li>);
+      })}
+    </ul>
+  );
+}
